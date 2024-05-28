@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TresPageRoutingModule } from './tres-routing.module';
 
 import { TresPage } from './tres.page';
-
+import { ModelViewerComponent } from '../model-viewer/model-viewer.component';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { TresPage } from './tres.page';
     IonicModule,
     TresPageRoutingModule
   ],
-  declarations: [TresPage],
+  declarations: [TresPage, ModelViewerComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
 
 })
