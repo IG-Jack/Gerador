@@ -13,23 +13,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
- 
   <div class="header-container">
     <div class="header" style="background-image: url('https://prensaregional.pe/wp-content/uploads/2020/10/Central-Solar-Fotovoltaica-Rubi-se-ubica-en-Moquegua.jpg');">
       <div class="overlay"></div>
       <div class="header-text">
         <p>La energía solar</p>
-        <div class="swiper-container">
+        <div class="swiper-container" #swiper>
           <div class="swiper-wrapper">
             <div class="swiper-slide">De divinidad a objeto de estudio de Albert Einstein, desde los albores de la humanidad la luz solar ha ido de la mano del ser humano.</div>
             <div class="swiper-slide">Hemos aprovechado su energía para iluminar nuestras vidas, alimentar nuestras ciudades y alimentar nuestras mentes con la esperanza de un futuro más sostenible.</div>
             <div class="swiper-slide">Explora con nosotros la maravilla de la energía solar y descubre cómo está dando forma a nuestro mundo y nuestro futuro.</div>
           </div>
-        
+          <!-- Si necesitamos paginación -->
+          <div class="swiper-pagination"></div>
+  
+          <!-- Si necesitamos botones de navegación -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
       </div>
     </div>
   </div>
+  
 
   
     <div class="st">

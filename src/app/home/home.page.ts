@@ -26,8 +26,8 @@ export class HomePage implements AfterViewInit {
   constructor(private router: Router) {}
 
   segmentChanged(event: CustomEvent) {
-    const selectedPage = event.detail.value;  // Get the selected page's value
-    this.router.navigate([selectedPage]);  // Use the router to navigate to the selected page
+    const selectedPage = event.detail.value;  // Obtener el valor de la página seleccionada
+    this.router.navigate([selectedPage]);  // Usar el enrutador para navegar a la página seleccionada
   }
 
   swiperReady() {
@@ -49,6 +49,7 @@ export class HomePage implements AfterViewInit {
   ngAfterViewInit() {
     this.startGSAPAnimations();
     this.startImageLoop();
+    this.initializeSwiper();
   }
 
   private startGSAPAnimations() {
@@ -56,14 +57,16 @@ export class HomePage implements AfterViewInit {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            gsap.from('.timeline-event-horizontal', {
-              opacity: 0,
-              x: -100, /* Desplazamiento desde la izquierda */
-              scale: 0.8, /* Escalado para un efecto llamativo */
-              duration: 1, /* Duración de la animación */
-              stagger: 0.3, /* Tiempo entre animaciones */
-              ease: 'power3.out', /* Efecto suave */
-            });
+            gsap.fromTo('.timeline-event-horizontal',
+              { opacity: 0, x: -100, scale: 0.8 }, // Estado inicial
+              {
+                opacity: 1, x: 0, scale: 1, duration: 1, stagger: 0.3, ease: 'power3.out',
+                onComplete: () => {
+                  gsap.to('.timeline-event-horizontal', {
+                    opacity: 0, x: -100, scale: 0.8, duration: 1, stagger: 0.3, ease: 'power3.in',
+                  });
+                }
+              });
 
             observer.disconnect(); // Para evitar reanimaciones innecesarias
           }
@@ -72,6 +75,29 @@ export class HomePage implements AfterViewInit {
 
       observer.observe(this.timelineContainer.nativeElement);
     }
+
+    // Animaciones adicionales para el texto y los slides
+    gsap.fromTo('.header-text p',
+      { opacity: 0, y: -50 }, // Estado inicial
+      {
+        opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+        onComplete: () => {
+          gsap.to('.header-text p', {
+            opacity: 0, y: -50, duration: 1, ease: 'power3.in',
+          });
+        }
+      });
+
+    gsap.fromTo('.swiper-slide',
+      { opacity: 0, y: 50 }, // Estado inicial
+      {
+        opacity: 1, y: 0, duration: 1, stagger: 0.3, ease: 'power3.out',
+        onComplete: () => {
+          gsap.to('.swiper-slide', {
+            opacity: 0, y: 50, duration: 1, stagger: 0.3, ease: 'power3.in',
+          });
+        }
+      });
   }
 
   private startImageLoop() {
@@ -104,5 +130,23 @@ export class HomePage implements AfterViewInit {
     };
 
     setInterval(updateImage, 3000); // Cambiar la imagen cada 3 segundos
+  }
+
+  private initializeSwiper() {
+    new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      loop: true,
+      autoplay: {
+        delay: 5000,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
   }
 }
